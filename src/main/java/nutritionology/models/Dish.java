@@ -73,7 +73,7 @@ public class Dish {
      */
     @ManyToMany
     @JoinTable(
-            name = "meal_time_map",
+            name = "dish_meal_time_map",
             joinColumns = @JoinColumn(name = "dish_id"),
             inverseJoinColumns = @JoinColumn(name = "meal_time_id"))
     private Set<MealTime> mealTimes;

@@ -40,7 +40,7 @@ public class User {
      */
     @ManyToMany
     @JoinTable(
-            name = "parameter_map",
+            name = "user_parameter_map",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "parameter_id"))
     private Set<Parameter> parameters;
@@ -65,6 +65,18 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private UserRole userRole;
+
+    /**
+     * Почта, логин.
+     */
+    @Column(name = "email")
+    private String email;
+
+    /**
+     * Хешированнный парооль.
+     */
+    @Column(name = "password_hash")
+    private String passwordHash;
 
     // region get and set
 
@@ -158,6 +170,34 @@ public class User {
      */
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    /**
+     * Почта, логин.
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Почта, логин.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Хешированнный парооль.
+     */
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    /**
+     * Хешированнный парооль.
+     */
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     // endregion

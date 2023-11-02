@@ -3,7 +3,8 @@ package nutritionology.controllers;
 import nutritionology.database.implementers.providers.jpa.GenderRepositoryJPA;
 import nutritionology.models.Dish;
 import nutritionology.models.dictionaries.Gender;
-import nutritionology.services.DishService;
+import nutritionology.services.implementers.DishService;
+import nutritionology.services.interfaces.DishServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dish")
 public class DishController {
 
-    private DishService dishService;
+    private DishServiceInterface dishService;
 
     private GenderRepositoryJPA genderRepositoryJPA;
 
-    public DishController(DishService dishService, GenderRepositoryJPA genderRepositoryJPA) {
+    public DishController(DishServiceInterface dishService, GenderRepositoryJPA genderRepositoryJPA) {
         this.dishService = dishService;
         this.genderRepositoryJPA = genderRepositoryJPA;
     }

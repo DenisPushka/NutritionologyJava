@@ -1,24 +1,26 @@
-package nutritionology.database.interfaces;
+package nutritionology.services.interfaces;
 
 import nutritionology.models.Dish;
 
 /**
  * Интерфейс для запросов к таблице "Блюдо" (Dish), рецепт (Recipe) и продукт блюдо Мап.
- * */
-public interface DishRepositoryInterface {
+ */
+public interface DishServiceInterface {
 
     /**
      * Добавление блюда.
+     *
      * @param dish Блюдо.
      * @return Добавленное блюдо.
-     * */
+     */
     Dish AddDish(Dish dish);
 
-    /// <summary>
-    /// Получение массива блюд.
-    /// </summary>
-    /// <returns>Массив блюд.</returns>
-    // Task<Dish[]> GetDishes();
+    /**
+     * Получение массива блюд.
+     *
+     * @return Массив блюд.
+     */
+    Dish[] GetDishes();
 
     /// <summary>
     /// Получение блюда по <paramref name="dishId"/>.
@@ -29,8 +31,9 @@ public interface DishRepositoryInterface {
 
     /**
      * Получение блюда по миени
+     *
      * @param name Название блюда.
      * @return Искомое блюдо.
-     * */
+     */
     Dish GetDishForName(String name);
 }

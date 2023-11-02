@@ -51,7 +51,7 @@ public class Parameter {
      */
     @ManyToMany
     @JoinTable(
-            name = "like_product_map",
+            name = "parameter_like_product_map",
             joinColumns = @JoinColumn(name = "parameter_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> likeProducts;
@@ -61,7 +61,7 @@ public class Parameter {
      */
     @ManyToMany
     @JoinTable(
-            name = "problem_product_map",
+            name = "parameter_problem_product_map",
             joinColumns = @JoinColumn(name = "parameter_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> problemProducts;
