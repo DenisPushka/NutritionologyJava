@@ -1,6 +1,7 @@
 package nutritionology.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class Recipe {
      * Описание.
      */
     @Column(name = "description")
+    @NotEmpty
     private String description;
 
     /**

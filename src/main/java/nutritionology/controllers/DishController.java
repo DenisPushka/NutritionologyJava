@@ -1,49 +1,34 @@
 package nutritionology.controllers;
 
-import nutritionology.database.implementers.providers.jpa.GenderRepositoryJPA;
 import nutritionology.models.Dish;
-import nutritionology.models.dictionaries.Gender;
-import nutritionology.services.implementers.DishService;
 import nutritionology.services.interfaces.DishServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Контроллер для взаимодейсвия с моедлью "Блюдо".
  */
-@RestController // TODO read about rest controller and just controller.
+@RestController
 @RequestMapping("/dish")
 public class DishController {
 
-    private DishServiceInterface dishService;
+    private final DishServiceInterface dishServiceInterface;
 
-    private GenderRepositoryJPA genderRepositoryJPA;
-
-    public DishController(DishServiceInterface dishService, GenderRepositoryJPA genderRepositoryJPA) {
-        this.dishService = dishService;
-        this.genderRepositoryJPA = genderRepositoryJPA;
+    public DishController(DishServiceInterface dishServiceInterface) {
+        this.dishServiceInterface = dishServiceInterface;
     }
 
-    @GetMapping("/addGender")
-    public ResponseEntity TestInsert(String shortName, String fullName){
-        var gender = new Gender();
-        gender.setShortName(shortName);
-        gender.setFullName(fullName);
-        genderRepositoryJPA.save(gender);
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    /**
-     * @param name Название блюда.
-     * @return Искомое блюдо.
-     */
-    // TODO переопределить свой response entity.
-    @GetMapping("/getDishForName")
-    public ResponseEntity<Dish> GetDishForName(String name) {
-        return new ResponseEntity<Dish>(dishService.GetDishForName(name), HttpStatus.ACCEPTED);
+    @PostMapping("/add")
+    public ResponseEntity<Dish> addDish(@RequestBody Dish dish) {
+        try {
+            return new ResponseEntity<>(dishServiceInterface.addDish(dish), HttpStatus.OK);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 }

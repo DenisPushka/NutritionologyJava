@@ -1,10 +1,14 @@
 package nutritionology.models;
 
+import jakarta.annotation.PreDestroy;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.dictionaries.*;
 import nutritionology.models.maps.DietDish;
 import nutritionology.models.maps.ProductDish;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,13 +38,14 @@ public class Dish {
      * Название.
      */
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     /**
      * Вес.
      */
     @Column(name = "weight")
-    private int weight;
+    private double weight;
 
     /**
      * Процент дневной нормы.
@@ -52,13 +57,13 @@ public class Dish {
     /**
      * Продукты.
      */
-    @OneToMany(mappedBy = "dish")
+    @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER)
     private Set<ProductDish> productDishes;
 
     /**
      * Фото блюда.
      */
-    @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER)
     private Set<Photo> Photos;
 
     /**
@@ -94,7 +99,7 @@ public class Dish {
      * Тип обеда.
      */
     @ManyToOne
-    @JoinColumn(name = "type_lunch_id", nullable = false)
+    @JoinColumn(name = "type_lunch_id")
     private TypeLunch typeLunch;
 
     //region gets and sets
@@ -138,14 +143,14 @@ public class Dish {
     /**
      * Вес.
      */
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
     /**
      * Вес.
      */
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

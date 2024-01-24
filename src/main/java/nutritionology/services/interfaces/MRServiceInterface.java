@@ -20,7 +20,7 @@ public interface MRServiceInterface {
      * @param ms Добавляемый объект.
      * @return Массив СИ.
      */
-    MS[] AddMs(MS ms);
+    MS[] addMs(MS ms);
 
     /**
      * Добавление массива СИ.
@@ -28,7 +28,7 @@ public interface MRServiceInterface {
      * @param mses Добавляемые объекты.
      * @return Массив СИ.
      */
-    MS[] AddArrayMs(MS[] mses);
+    MS[] addArrayMs(MS[] mses);
 
 
     /**
@@ -36,19 +36,19 @@ public interface MRServiceInterface {
      *
      * @return Массив СИ.
      */
-    MS[] GetMSes();
+    MS[] getMSes();
 
     // endregion
 
     // region Биологический элемент
 
-
+    void addBiologicallyElement(BiologicalElement biologicalElement);
     /**
      * Получение всех биологических элементов.
      *
      * @return Массив биологических элементов.
      */
-    BiologicalElement[] GetBiologicallyElements();
+    BiologicalElement[] getBiologicallyElements();
 
     // endregion
 
@@ -60,7 +60,7 @@ public interface MRServiceInterface {
      * @param mrItem Добавляемый объект.
      * @return Массив элементов МР.
      */
-    MRItem[] AddMrItem(MRItem mrItem);
+    MRItem[] addMrItem(MRItem mrItem);
 
     /**
      * Добавление массива элементов МР.
@@ -68,7 +68,7 @@ public interface MRServiceInterface {
      * @param mrItems Добавляемые объекты.
      * @return Массив элементов МР.
      */
-    MRItem[] AddArrayMrItems(MRItem[] mrItems);
+    MRItem[] addArrayMrItems(MRItem[] mrItems);
 
     /**
      * Изменение элемента МР.
@@ -76,14 +76,14 @@ public interface MRServiceInterface {
      * @param mrItem Новоизменный объект.
      * @return Массив элементов МР.
      */
-    MRItem[] UpdateMrItem(MRItem mrItem);
+    MRItem[] updateMrItem(MRItem mrItem);
 
     /**
      * Получение элементов МР.
      *
      * @return Массив элементов МР.
      */
-    MRItem[] GetAllMrItems();
+    MRItem[] getAllMrItems();
 
     // endregion
 
@@ -95,7 +95,7 @@ public interface MRServiceInterface {
      * @param mr Добавляемый объект.
      * @return Массив МР.
      */
-    MR[] AddMr(MR mr);
+    MR[] addMr(MR mr);
 
     /**
      * Добавление массива МР.
@@ -103,7 +103,7 @@ public interface MRServiceInterface {
      * @param mrs Добавляемые объекты.
      * @return Массив МР.
      */
-    MR[] AddMrs(MR[] mrs);
+    MR[] addMrs(MR[] mrs);
 
     /**
      * Изменение МР.
@@ -111,14 +111,14 @@ public interface MRServiceInterface {
      * @param mr Новоизмененный объект.
      * @return Массив МР.
      */
-    MR[] UpdateMr(MR mr);
+    MR[] updateMr(MR mr);
 
     /**
      * Получение массива МР.
      *
      * @return Массив МР.
      */
-    MR[] GetAllMr();
+    MR[] getAllMr();
 
     // endregion
 }

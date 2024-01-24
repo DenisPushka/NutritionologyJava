@@ -1,6 +1,7 @@
 package nutritionology.models.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class Company {
      * Название компании.
      */
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     /**

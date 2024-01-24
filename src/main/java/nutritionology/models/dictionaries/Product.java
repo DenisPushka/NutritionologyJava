@@ -1,6 +1,11 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nutritionology.models.Parameter;
 import nutritionology.models.maps.ProductMRItem;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,6 +17,8 @@ import java.util.UUID;
  * Продукт.
  */
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "product")
 public class Product {
 
@@ -32,6 +39,7 @@ public class Product {
      * Полное название продукта.
      */
     @Column(name = "product_full_name")
+    @NotEmpty
     private String productFullName;
 
     /**
@@ -49,7 +57,8 @@ public class Product {
     /**
      * Свойство продукта.
      */
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<ProductMRItem> productMRItems;
 
     // region get and set

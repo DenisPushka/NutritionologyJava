@@ -1,6 +1,7 @@
 package nutritionology.models.dictionaries;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.Parameter;
 import nutritionology.models.user.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -25,6 +26,7 @@ public class UserRole {
      * Название.
      */
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     /**

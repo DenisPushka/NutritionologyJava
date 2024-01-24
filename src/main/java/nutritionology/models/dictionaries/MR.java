@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,6 +25,7 @@ public class MR {
      */
     @ManyToOne
     @JoinColumn(name = "mr_item_id", nullable = false)
+    @JsonIgnore
     private MRItem mrItem;
 
     /**
@@ -31,6 +33,7 @@ public class MR {
      */
     @ManyToOne
     @JoinColumn(name = "gender_id", nullable = false)
+    @JsonIgnore
     private Gender gender;
 
     /**

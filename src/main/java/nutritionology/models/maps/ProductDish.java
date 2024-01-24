@@ -1,5 +1,6 @@
 package nutritionology.models.maps;
 
+import jakarta.validation.constraints.Min;
 import nutritionology.models.Dish;
 import nutritionology.models.dictionaries.MS;
 import nutritionology.models.dictionaries.Product;
@@ -18,7 +19,7 @@ public class ProductDish {
     /**
      * Продукт.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;

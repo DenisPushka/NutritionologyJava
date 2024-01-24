@@ -27,7 +27,6 @@ public class Diet {
     private Set<DietDish> dietDishes;
 
 
-
     // region get and set
 
     public UUID getDietId() {

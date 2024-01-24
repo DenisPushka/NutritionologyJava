@@ -1,6 +1,9 @@
 package nutritionology.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import nutritionology.models.dictionaries.*;
 import nutritionology.models.user.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,7 +44,7 @@ public class Parameter {
     private double weight;
 
     /**
-     * Рост (см).
+     * Рост (м).
      */
     @Column(name = "height")
     private double height;

@@ -1,8 +1,12 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.PreDestroy;
 import nutritionology.models.maps.ProductDish;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.Set;
 import java.util.UUID;
@@ -36,12 +40,14 @@ public class MS {
      * Продукты.
      */
     @OneToMany(mappedBy = "ms")
+    @JsonIgnore
     private Set<ProductDish> productDishes;
 
     /**
      * МР Элементы.
      */
     @OneToMany(mappedBy = "ms")
+    @JsonIgnore
     private Set<MRItem> mrItems;
 
     // region gets and sets

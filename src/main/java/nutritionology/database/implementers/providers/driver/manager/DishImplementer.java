@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 /**
@@ -20,14 +21,16 @@ public class DishImplementer extends ParentSQL {
      * @param name Название блюда.
      * @return Искомое блюдо.
      */
-    public Dish GetDishForName(String name) {
+    public Dish getDishForName(String name) {
         // TODO VALIDATION.
 
         Dish dish = new Dish();
 
         try {
             Connection connection = DriverManager.getConnection(ConnectionString);
-            Statement stmt = connection.createStatement();
+            PreparedStatement stmt = connection.prepareStatement("INSERT INTO Dish () VALUES (?)");
+
+            stmt.setString(1, name);
 //            ResultSet executeQuery = stmt.executeQuery(
 //                    // TODO ВЫНЕСТИ В ФАЙЛ ЗАПРОСОВ.
 //                    "SELECT DishId, Number, Name, Weight, IsDrink, TypeLunchId " +

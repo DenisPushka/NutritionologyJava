@@ -18,27 +18,27 @@ public class ParentSQL {
         FileInputStream fis;
         Properties property = new Properties();
 
-        try {
-            fis = new FileInputStream("src/main/resources/config.properties");
-            property.load(fis);
-
-            String host = property.getProperty("db.host");
-            String name = property.getProperty("db.name");
-            String login = property.getProperty("db.login");
-            String password = property.getProperty("db.password");
-
-            ConnectionString = String.format(
-//                    "jdbc:mysql://DenisBaranovski:3306/nutritionology"
-                    "jdbc:mysql://%s:3306/%s?user=%s&password=%s"
-                    , host, name, login, password);
-
-            System.out.println("HOST: " + host
-                    + ", LOGIN: " + login
-                    + ", PASSWORD: " + password);
-
-        } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
-        }
+//        try {
+//            fis = new FileInputStream("src/main/resources/config.properties");
+//            property.load(fis);
+//
+//            String host = property.getProperty("db.host");
+//            String name = property.getProperty("db.name");
+//            String login = property.getProperty("db.login");
+//            String password = property.getProperty("db.password");
+//
+//            ConnectionString = String.format(
+////                    "jdbc:mysql://DenisBaranovski:3306/nutritionology"
+//                    "jdbc:mysql://%s:3306/%s?user=%s&password=%s"
+//                    , host, name, login, password);
+//
+//            System.out.println("HOST: " + host
+//                    + ", LOGIN: " + login
+//                    + ", PASSWORD: " + password);
+//
+//        } catch (IOException e) {
+//            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+//        }
     }
 //    /// <summary>
 //    /// Добавление элементов, используется только для asp net provider.

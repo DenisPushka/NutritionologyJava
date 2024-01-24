@@ -1,6 +1,7 @@
 package nutritionology.models.maps;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import nutritionology.models.*;
 import nutritionology.models.dictionaries.DayOfWeek;
 import nutritionology.models.dictionaries.MealTime;

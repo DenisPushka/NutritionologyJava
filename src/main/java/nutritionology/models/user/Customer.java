@@ -1,6 +1,8 @@
 package nutritionology.models.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
@@ -22,12 +24,16 @@ public class Customer {
      * Имя.
      */
     @Column(name = "name")
+    @NotEmpty
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String name;
 
     /**
      * Фамилия.
      */
     @Column(name = "last_name")
+    @NotEmpty
+    @Size(min = 2, max = 30, message = "LastName should be between 2 and 30 characters")
     private String lastName;
 
     /**

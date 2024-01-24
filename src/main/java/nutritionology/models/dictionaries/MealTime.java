@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.Dish;
 import jakarta.persistence.*;
 import nutritionology.models.maps.DietDish;
@@ -25,6 +26,7 @@ public class MealTime {
      * Название приема пищи, пример: завтрак...
      */
     @Column(name = "Name", nullable = false)
+    @NotEmpty
     private String name;
 
     /**

@@ -1,8 +1,12 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,6 +15,9 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "product_name")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductName {
 
     @Id
@@ -22,53 +29,13 @@ public class ProductName {
     /**
      * Название продукта.
      */
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
+    @NotEmpty
     private String name;
 
     /**
      * Продукты.
      */
-    @OneToMany(mappedBy = "productName")
+    @OneToMany(mappedBy = "productName", fetch = FetchType.LAZY)
     private Set<Product> products;
-
-    // region get and set
-
-    public UUID getProductNameId() {
-        return productNameId;
-    }
-
-    public void setProductNameId(UUID productNameId) {
-        this.productNameId = productNameId;
-    }
-
-    /**
-     * Название продукта.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Название продукта.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Продукты.
-     */
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    /**
-     * Продукты.
-     */
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
-    // endregion
-
 }

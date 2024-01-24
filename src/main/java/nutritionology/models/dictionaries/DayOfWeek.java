@@ -1,6 +1,7 @@
 package nutritionology.models.dictionaries;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.maps.DietDish;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -24,12 +25,14 @@ public class DayOfWeek {
      * Короткое название.
      */
     @Column(name = "short_name")
+    @NotEmpty
     private String shortName;
 
     /**
      * Полное название.
      */
     @Column(name = "full_name")
+    @NotEmpty
     private String fullName;
 
     /**

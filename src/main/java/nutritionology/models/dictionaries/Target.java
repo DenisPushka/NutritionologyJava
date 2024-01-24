@@ -1,6 +1,10 @@
 package nutritionology.models.dictionaries;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 import nutritionology.models.Parameter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +16,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "target")
+@Data
 public class Target {
 
     @Id
@@ -24,71 +29,18 @@ public class Target {
      * Название цели.
      */
     @Column(name = "name")
+    @NotEmpty
     private String name;
 
     /**
      * Процент.
      */
-    @Column(name = "percent")
-    private double percent;
+    @Column(name = "percent_target")
+    private float percent;
 
     /**
      * Параметр.
      */
     @OneToMany(mappedBy = "target")
     private Set<Parameter> parameters;
-
-    // region get and set
-
-    public UUID getTargetId() {
-        return targetId;
-    }
-
-    public void setTargetId(UUID targetId) {
-        this.targetId = targetId;
-    }
-
-    /**
-     * Название цели.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Название цели.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Процент.
-     */
-    public double getPercent() {
-        return percent;
-    }
-
-    /**
-     * Процент.
-     */
-    public void setPercent(double percent) {
-        this.percent = percent;
-    }
-
-    /**
-     * Параметр.
-     */
-    public Set<Parameter> getParameters() {
-        return parameters;
-    }
-
-    /**
-     * Параметр.
-     */
-    public void setParameters(Set<Parameter> parameters) {
-        this.parameters = parameters;
-    }
-
-    // endregion
 }

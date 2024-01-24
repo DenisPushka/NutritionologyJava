@@ -1,6 +1,9 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Data;
 import nutritionology.models.maps.ProductMRItem;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "mr_item")
+@Data
 public class MRItem {
 
     @Id
@@ -44,6 +48,7 @@ public class MRItem {
      * Свойства продукта.
      */
     @OneToMany(mappedBy = "mrItem")
+    @JsonIgnore
     private Set<ProductMRItem> productMRItems;
 
     /**
@@ -51,88 +56,4 @@ public class MRItem {
      */
     @OneToMany(mappedBy = "mrItem")
     private Set<MR> mrs;
-
-    // region gets and sets
-
-    public UUID getMrItemId() {
-        return mrItemId;
-    }
-
-    public void setMrItemId(UUID mrItemId) {
-        this.mrItemId = mrItemId;
-    }
-
-    /**
-     * СИ.
-     */
-    public MS getMs() {
-        return ms;
-    }
-
-    /**
-     * СИ.
-     */
-    public void setMs(MS ms) {
-        this.ms = ms;
-    }
-
-    /**
-     * Название элемента.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Название элемента.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Биологический элемент.
-     */
-    public BiologicalElement getBiologicalElement() {
-        return biologicalElement;
-    }
-
-    /**
-     * Биологический элемент.
-     */
-    public void setBiologicalElement(BiologicalElement biologicalElement) {
-        this.biologicalElement = biologicalElement;
-    }
-
-    /**
-     * Свойства продукта.
-     */
-    public Set<ProductMRItem> getProductMRItems() {
-        return productMRItems;
-    }
-
-    /**
-     * Свойства продукта.
-     */
-    public void setProductMRItems(Set<ProductMRItem> productMRItems) {
-        this.productMRItems = productMRItems;
-    }
-
-    /**
-     * Методическая рекомендация.
-     */
-    public Set<MR> getMrs() {
-        return mrs;
-    }
-
-    /**
-     * Методическая рекомендация.
-     */
-    public void setMrs(Set<MR> mrs) {
-        this.mrs = mrs;
-    }
-
-    // endregion
-
-
 }

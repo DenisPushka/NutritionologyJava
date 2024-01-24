@@ -1,6 +1,9 @@
 package nutritionology.models.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import nutritionology.models.Parameter;
 import nutritionology.models.dictionaries.Subscription;
 import nutritionology.models.dictionaries.UserRole;
@@ -13,7 +16,7 @@ import java.util.UUID;
  * Общий пользователь.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user_parent")
 public class User {
 
     @Id
@@ -70,12 +73,15 @@ public class User {
      * Почта, логин.
      */
     @Column(name = "email")
+    @Email(message = "Email should be valid!")
     private String email;
 
     /**
      * Хешированнный парооль.
      */
     @Column(name = "password_hash")
+    @NotEmpty(message = "Password is empty!")
+    @Size(min = 5, message = "Size password minimum 5 sign")
     private String passwordHash;
 
     // region get and set

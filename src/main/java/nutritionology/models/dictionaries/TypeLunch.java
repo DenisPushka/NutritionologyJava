@@ -11,7 +11,7 @@ import java.util.UUID;
  * Тип обеда.
  */
 @Entity
-@Table(name = "type_lunch_id")
+@Table(name = "type_lunch")
 public class TypeLunch {
 
     @Id

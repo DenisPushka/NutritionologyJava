@@ -17,7 +17,7 @@ public interface DietServiceInterface {
      * @param diet Добавляемый рацион.
      * @return Массив рационов.
      */
-    Diet[] AddDiet(Diet diet);
+    Diet[] addDiet(Diet diet);
 
     /**
      * Добавление рациона пользователю.
@@ -26,19 +26,19 @@ public interface DietServiceInterface {
      * @param diet Добавляемый рацион.
      * @return Добавленный рацион.
      */
-    Diet AddDietToUser(User user, Diet diet);
+    Diet addDietToUser(User user, Diet diet);
 
     /**
      * Получение всех "Приемов пищи".
      *
      * @return Массив приемов пищи.
      */
-    MealTime[] GetMealTimes();
+    MealTime[] getMealTimes();
 
     /**
      * Получение всех дней недели.
      *
      * @return Массив дней недели.
      */
-    DayOfWeek[] GetAllDaysOdfWeek();
+    DayOfWeek[] getAllDaysOdfWeek();
 }

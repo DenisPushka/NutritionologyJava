@@ -1,10 +1,12 @@
 package nutritionology.services.interfaces;
 
 import nutritionology.models.Dish;
+import org.springframework.stereotype.Service;
 
 /**
  * Интерфейс для запросов к таблице "Блюдо" (Dish), рецепт (Recipe) и продукт блюдо Мап.
  */
+@Service
 public interface DishServiceInterface {
 
     /**
@@ -13,14 +15,14 @@ public interface DishServiceInterface {
      * @param dish Блюдо.
      * @return Добавленное блюдо.
      */
-    Dish AddDish(Dish dish);
+    Dish addDish(Dish dish);
 
     /**
      * Получение массива блюд.
      *
      * @return Массив блюд.
      */
-    Dish[] GetDishes();
+    Dish[] getDishes();
 
     /// <summary>
     /// Получение блюда по <paramref name="dishId"/>.
@@ -35,5 +37,5 @@ public interface DishServiceInterface {
      * @param name Название блюда.
      * @return Искомое блюдо.
      */
-    Dish GetDishForName(String name);
+    Dish getDishForName(String name);
 }

@@ -1,5 +1,6 @@
 package nutritionology.models.maps;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import nutritionology.models.dictionaries.MRItem;
 import nutritionology.models.dictionaries.Product;
@@ -24,13 +25,15 @@ public class ProductMRItem {
      */
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+//    @JsonIgnore
     private Product product;
 
     /**
      * МР элемент.
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mr_item_id", nullable = false)
+//    @JsonIgnore
     private MRItem mrItem;
 
     /**

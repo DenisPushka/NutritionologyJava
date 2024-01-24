@@ -3,11 +3,13 @@ package nutritionology.services.interfaces;
 import nutritionology.models.Parameter;
 import nutritionology.models.dictionaries.Subscription;
 import nutritionology.models.user.User;
+import org.springframework.stereotype.Service;
 
 /**
  * Интерфейс для запросов к таблице "Пользователь".
  * Включает запросы для таблиц: Параметр (Parameter), Подписка (Subscription).
  */
+@Service
 public interface UserServiceInterface {
 
     /**
@@ -17,7 +19,7 @@ public interface UserServiceInterface {
      * @param parameter Добавляемыый параметр.
      * @return Добавленный параметр.
      */
-    Parameter AddParameter(User user, Parameter parameter);
+    Parameter addParameter(User user, Parameter parameter);
 
 //    User Login(UserAuth user);
 
@@ -27,7 +29,7 @@ public interface UserServiceInterface {
      * @param user Регистрируемый пользоваетль.
      * @return Зарегистрированный пользователь.
      */
-    User Registration(User user);
+    User registration(User user);
 
     /**
      * Добавление подписки пользовтелю.
@@ -35,7 +37,7 @@ public interface UserServiceInterface {
      * @param user Пользовтель, которому добавляется/изменяется подписка.
      * @return true - в случае успеха.
      */
-    boolean AddSubscription(User user, Subscription subscription);
+    boolean addSubscription(User user, Subscription subscription);
 
     /**
      * Добавление подписки.
@@ -43,12 +45,12 @@ public interface UserServiceInterface {
      * @param subscription Добавляемая подписка.
      * @return Массив подписок.
      */
-    Subscription[] AddSubscription(Subscription subscription);
+    Subscription[] addSubscription(Subscription subscription);
 
     /**
      * Получение всех подписок.
      *
      * @return Массив подписок.
      */
-    Subscription[] GetSubscriptions();
+    Subscription[] getSubscriptions();
 }
