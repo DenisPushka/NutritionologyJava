@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.Dish;
 import jakarta.persistence.*;
@@ -33,6 +34,7 @@ public class MealTime {
      * Блюда.
      */
     @ManyToMany(mappedBy = "mealTimes")
+    @JsonIgnore
     private Set<Dish> dishes;
 
     /**

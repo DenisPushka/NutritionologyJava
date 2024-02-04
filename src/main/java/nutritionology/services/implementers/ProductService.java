@@ -72,7 +72,7 @@ public class ProductService implements ProductServiceInterface {
 
     @Override
     public Product[] getAllProducts() {
-        return new Product[0];
+        return productRepositoryJPA.findAll().toArray(new Product[0]);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package nutritionology.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +31,7 @@ public class Recipe {
      * Блюдо.
      */
     @OneToOne(mappedBy = "recipe")
+    @JsonIgnore
     private Dish dish;
 
     /**

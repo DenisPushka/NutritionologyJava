@@ -34,4 +34,6 @@ public class RecipeService implements RecipeServiceInterface {
     public Recipe getRecipe(UUID uuid) {
         return recipeRepositoryJPA.findById(uuid).get();
     }
+
+    public Recipe getRecipeForDescription(String descr) {return recipeRepositoryJPA.getRecipeByDescription(descr);}
 }

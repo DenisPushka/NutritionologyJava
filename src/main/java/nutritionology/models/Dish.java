@@ -1,16 +1,16 @@
 package nutritionology.models;
 
-import jakarta.annotation.PreDestroy;
-import jakarta.validation.constraints.Min;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import nutritionology.models.dictionaries.*;
+import nutritionology.models.dictionaries.MealTime;
+import nutritionology.models.dictionaries.Photo;
+import nutritionology.models.dictionaries.TypeLunch;
 import nutritionology.models.maps.DietDish;
 import nutritionology.models.maps.ProductDish;
-import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.web.bind.annotation.InitBinder;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -46,13 +46,13 @@ public class Dish {
      */
     @Column(name = "weight")
     private double weight;
-
-    /**
-     * Процент дневной нормы.
-     */
-    // TODO THINK!
-    @Transient
-    private double dayNorm;
+//
+//    /**
+//     * Процент дневной нормы.
+//     */
+//    // TODO THINK!
+//    @Transient
+//    private double dayNorm;
 
     /**
      * Продукты.
@@ -69,6 +69,7 @@ public class Dish {
     /**
      * Рецепт.
      */
+    @Nullable
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")
     private Recipe recipe;
@@ -93,6 +94,7 @@ public class Dish {
      * Рацион - блюдо.
      */
     @OneToMany(mappedBy = "dish")
+    @JsonIgnore
     private Set<DietDish> dietDishes;
 
     /**
@@ -100,6 +102,7 @@ public class Dish {
      */
     @ManyToOne
     @JoinColumn(name = "type_lunch_id")
+    @Nullable
     private TypeLunch typeLunch;
 
     //region gets and sets
@@ -153,20 +156,20 @@ public class Dish {
     public void setWeight(double weight) {
         this.weight = weight;
     }
-
-    /**
-     * Процент дневной нормы.
-     */
-    public double getDayNorm() {
-        return dayNorm;
-    }
-
-    /**
-     * Процент дневной нормы.
-     */
-    public void setDayNorm(double dayNorm) {
-        this.dayNorm = dayNorm;
-    }
+//
+//    /**
+//     * Процент дневной нормы.
+//     */
+//    public double getDayNorm() {
+//        return dayNorm;
+//    }
+//
+//    /**
+//     * Процент дневной нормы.
+//     */
+//    public void setDayNorm(double dayNorm) {
+//        this.dayNorm = dayNorm;
+//    }
 
     /**
      * Это напиток.

@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import nutritionology.models.Dish;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +31,7 @@ public class TypeLunch {
      * Блюда.
      */
     @OneToMany(mappedBy = "typeLunch")
+    @JsonIgnore
     private Set<Dish> dishes;
 
     // region get and set

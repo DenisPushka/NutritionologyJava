@@ -14,4 +14,5 @@ public interface RecipeServiceInterface {
     Recipe addRecipe(Recipe recipe);
 
     Recipe getRecipe(UUID uuid);
+    Recipe getRecipeForDescription(String descr);
 }

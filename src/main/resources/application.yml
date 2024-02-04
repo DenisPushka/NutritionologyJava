@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: development
+  datasource:
+    url: jdbc:sqlserver://localhost;database=Nutritionology;user=Denis_Nutrotionology;password=12345;encrypt=true;trustServerCertificate=true
+    username: Denis_Nutrotionology
+    password: 12345
+  properties:
+    hibernate:
+      format_sql: true
+      ddl-auto: update
+  jpa:
+    generate-ddl:true
+  #default port number
+server:
+  port: 8081

@@ -1,12 +1,12 @@
 package nutritionology.services;
 
-import nutritionology.database.implementers.providers.jpa.ActivityRepositoryJPA;
-import nutritionology.database.implementers.providers.jpa.DishRepositoryJPA;
-import nutritionology.database.implementers.providers.jpa.MealTimeRepositoryJPA;
-import nutritionology.database.implementers.providers.jpa.MrRepositoryJPA;
+import nutritionology.database.implementers.providers.jpa.*;
 import nutritionology.database.models.Tuple2;
+import nutritionology.models.Diet;
 import nutritionology.models.Dish;
 import nutritionology.models.Parameter;
+import nutritionology.models.dictionaries.MealTime;
+import nutritionology.models.maps.DietDish;
 import nutritionology.models.maps.ProductDish;
 import nutritionology.models.maps.ProductMRItem;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class CreatorMenu {
     /**
      * Условие проверки между МР пользователя и МР блюда.
      */
-    private ParamFunctionInterface checkLogicBetweenMRAndDish = (bufferForDish, tuple) -> !(
+    private final ParamFunctionInterface checkLogicBetweenMRAndDish = (bufferForDish, tuple) -> !(
             bufferForDish.containsKey(tuple.getFirst())
                     && bufferForDish.get(tuple.getFirst()) >= tuple.getSecond()
                     && !(
@@ -53,7 +53,7 @@ public class CreatorMenu {
     /**
      * Условие проверки между МР пользователя и МР блюда только по КБЖУ.
      */
-    private ParamFunctionInterface checkLogicBetweenMRAndDishOnlyPPFC = (bufferForDish, tuple) -> !(
+    private final ParamFunctionInterface checkLogicBetweenMRAndDishOnlyPPFC = (bufferForDish, tuple) -> !(
             (
                     tuple.getFirst().equals("Белок")
                             || tuple.getFirst().equals("Жир")
@@ -68,12 +68,16 @@ public class CreatorMenu {
     private final MrRepositoryJPA mrRepositoryJPA;
     private final ActivityRepositoryJPA activityRepositoryJPA;
     private final DishRepositoryJPA dishRepositoryJPA;
+    private final DietRepositoryJPA dietRepositoryJPA;
+    private final DietDishRepositoryJPA dietDishRepositoryJPA;
     private final MealTimeRepositoryJPA mealTimeRepositoryJPA;
 
-    public CreatorMenu(MrRepositoryJPA mrRepositoryJPA, ActivityRepositoryJPA activityRepositoryJPA, DishRepositoryJPA dishRepositoryJPA, MealTimeRepositoryJPA mealTimeRepositoryJPA) {
+    public CreatorMenu(MrRepositoryJPA mrRepositoryJPA, ActivityRepositoryJPA activityRepositoryJPA, DishRepositoryJPA dishRepositoryJPA, DietRepositoryJPA dietRepositoryJPA, DietDishRepositoryJPA dietDishRepositoryJPA, MealTimeRepositoryJPA mealTimeRepositoryJPA) {
         this.mrRepositoryJPA = mrRepositoryJPA;
         this.activityRepositoryJPA = activityRepositoryJPA;
         this.dishRepositoryJPA = dishRepositoryJPA;
+        this.dietRepositoryJPA = dietRepositoryJPA;
+        this.dietDishRepositoryJPA = dietDishRepositoryJPA;
         this.mealTimeRepositoryJPA = mealTimeRepositoryJPA;
     }
 
@@ -138,13 +142,16 @@ public class CreatorMenu {
 
         //endregion
 
-        // 1. Склеить данные п.1 + п.2
-        // 2. Обработать данные по цели и кол-ву приемов пищи
-        // 3. Начать поиск блюда по данным из п.2 (начать с завтрака)
-        // 4. По кол-ву приемов пищи находить блюда
+        List<MealTime> mealTimes = new ArrayList<>();
+        MealTime mealTimeBreakfast = mealTimeRepositoryJPA.findFirstByName("Завтрак");
+        MealTime mealTimeDinner = mealTimeRepositoryJPA.findFirstByName("Ужин");
 
-        List<Dish> breakfasts = dishRepositoryJPA.findDishesByMealTimes(mealTimeRepositoryJPA.findFirstByName("Завтрак"));
-        List<Dish> dinners = dishRepositoryJPA.findDishesByMealTimes(mealTimeRepositoryJPA.findFirstByName("Ужин"));
+        mealTimes.add(mealTimeBreakfast);
+        mealTimes.add(mealTimeDinner);
+
+        List<Dish> breakfasts = dishRepositoryJPA.findDishesByMealTimes(mealTimeBreakfast);
+        List<Dish> dinners = dishRepositoryJPA.findDishesByMealTimes(mealTimeDinner);
+
         List<Dish> launches = null;
         List<Dish> launches2 = null;
         List<Dish> dinners2 = null;
@@ -160,29 +167,105 @@ public class CreatorMenu {
         listArraysTuple.add(mrsArrayForBreakfast);
         listArraysTuple.add(mrsArrayForDinner);
 
+        // Заолпнение mrs для каждого приема пищи в зависимости от их количества.
         if (parameter.getCountMealTimeInDay() > 2) {
             mrsArrayForLaunch = cloneArray(mrsArrayMain);
             listArraysTuple.add(mrsArrayForLaunch);
-            launches = dishRepositoryJPA.findDishesByMealTimes(mealTimeRepositoryJPA.findFirstByName("Обед"));
+            MealTime mealTimeLaunch = mealTimeRepositoryJPA.findFirstByName("Обед");
+            launches = dishRepositoryJPA.findDishesByMealTimes(mealTimeLaunch);
+            mealTimes.add(mealTimeLaunch);
         }
         if (parameter.getCountMealTimeInDay() > 3) {
             mrsArrayForLaunch2 = cloneArray(mrsArrayMain);
             listArraysTuple.add(mrsArrayForLaunch2);
-            launches2 = dishRepositoryJPA.findDishesByMealTimes(mealTimeRepositoryJPA.findFirstByName("Полдник"));
+            MealTime mealTimeLaunch2 = mealTimeRepositoryJPA.findFirstByName("Полдник");
+            launches2 = dishRepositoryJPA.findDishesByMealTimes(mealTimeLaunch2);
+            mealTimes.add(mealTimeLaunch2);
         }
         if (parameter.getCountMealTimeInDay() > 4) {
             mrsArrayForDinner2 = cloneArray(mrsArrayMain);
             listArraysTuple.add(mrsArrayForDinner2);
-            dinners2 = dishRepositoryJPA.findDishesByMealTimes(mealTimeRepositoryJPA.findFirstByName("Сонник"));
+            MealTime mealTimeDinner2 = mealTimeRepositoryJPA.findFirstByName("Сонник");
+            dinners2 = dishRepositoryJPA.findDishesByMealTimes(mealTimeDinner2);
+            mealTimes.add(mealTimeDinner2);
         }
 
         for (int i = 0; i < pfc.length; i++) {
             updateMRsArrayForMealTime(listArraysTuple.get(i), pfc, i);
         }
 
+        // region Полчение блюд по каждому приему пищи.
         Dish resultBreakfast = searchBestDishForMealTime(breakfasts, mrsArrayForBreakfast, checkLogicBetweenMRAndDish);
+        Dish resultDinner = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+        Dish resultLaunch;
+        Dish resultLaunch2;
+        Dish resultDinner2;
+
+        Dish[] dishes = new Dish[parameter.getCountMealTimeInDay()];
+        dishes[0] = resultBreakfast;
+        dishes[dishes.length - 1] = resultDinner;
+
+        if (parameter.getCountMealTimeInDay() > 2) {
+            resultLaunch = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            dishes[1] = resultLaunch;
+        }
+        if (parameter.getCountMealTimeInDay() > 3) {
+            resultLaunch2 = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            dishes[2] = resultLaunch2;
+        }
+        if (parameter.getCountMealTimeInDay() > 4) {
+            resultDinner2 = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            dishes[3] = resultDinner2;
+        }
+
+        // endregion
+
+        // Обращение в репу для сохранения всех изменений.
+        // todo лучше все это вынести в отдельный мкс.
+
+        saveAllDifference(dishes, mealTimes.toArray(new MealTime[0]));
 
         var stop = 0;
+    }
+
+
+    /**
+     * Сохранение всех изменений в БД.
+     *
+     * @param dishes    Блюда.
+     * @param mealTimes Приемы пищи.
+     */
+    public void saveAllDifference(Dish[] dishes, MealTime[] mealTimes) {
+        if (dishes.length != mealTimes.length) {
+            return;
+        }
+
+        // todo не проверял.
+        // Задачи:
+        // 1. Понадобавлять блюд (по каждому приему пищи, как минимум 5 штук).
+        // 2. Протестировать выборку.
+        // 3. Нарисовать UI для отображения выборки.
+        // 4. Прокинуть запрос с рационом.
+        // 5. Нарисовать конструктор для создания блюд.
+        // 6. Прокинуть запросы на сохранения созданных пользователем блюд.
+
+        Diet diet = new Diet();
+        diet = dietRepositoryJPA.save(diet);
+
+        for (int i = 0; i < dishes.length; i++) {
+            if (dishes[i] != null) {
+                dietDishRepositoryJPA.save(
+                        DietDish
+                                .builder()
+                                .dish(dishes[i])
+                                .diet(diet)
+                                .mealTime(mealTimes[i])
+                                .numberWeek(1)
+                                .build()
+                );
+            }
+        }
+
     }
 
 
@@ -245,7 +328,8 @@ public class CreatorMenu {
     }
 
     /**
-     * Обновление значений МР для определенного приема питания.*/
+     * Обновление значений МР для определенного приема питания.
+     */
     private void updateMRsArrayForMealTime(Tuple2<String, Double>[] mrs, float[] pfc, int indexPFC) {
         for (Tuple2<String, Double> tuple : mrs) {
             tuple.setSecond(tuple.getSecond() * pfc[indexPFC]);

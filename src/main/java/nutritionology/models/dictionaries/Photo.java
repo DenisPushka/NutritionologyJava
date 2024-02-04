@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import nutritionology.models.Dish;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +31,7 @@ public class Photo {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id", nullable = false)
+    @JsonIgnore
     private Dish dish;
 
     // region get && set

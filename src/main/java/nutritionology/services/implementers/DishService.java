@@ -2,14 +2,14 @@ package nutritionology.services.implementers;
 
 import nutritionology.database.implementers.providers.driver.manager.DishImplementer;
 import nutritionology.database.implementers.providers.jpa.DishRepositoryJPA;
+import nutritionology.database.implementers.providers.jpa.MSRepositoryJPA;
 import nutritionology.database.implementers.providers.jpa.ProductDishRepositoryJPA;
+import nutritionology.database.implementers.providers.jpa.TypeLunchRepository;
 import nutritionology.models.Dish;
 import nutritionology.models.maps.ProductDish;
 import nutritionology.models.maps.ProductDishKey;
 import nutritionology.services.interfaces.DishServiceInterface;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 /**
  * Сервис для блюд.
@@ -26,16 +26,20 @@ public class DishService implements DishServiceInterface {
     private final ProductService productService;
     private final RecipeService recipeService;
     private final ProductDishRepositoryJPA productDishRepositoryJPA;
+    private final TypeLunchRepository typeLunchRepository;
+    private final MSRepositoryJPA msRepositoryJPA;
 
 
     public DishService(DishImplementer dishImplementer, DishRepositoryJPA dishRepositoryJPA,
                        ProductService productService, RecipeService recipeService,
-                       ProductDishRepositoryJPA productDishRepositoryJPA) {
+                       ProductDishRepositoryJPA productDishRepositoryJPA, TypeLunchRepository typeLunchRepository, MSRepositoryJPA msRepositoryJPA) {
         this.dishImplementer = dishImplementer;
         this.dishRepositoryJPA = dishRepositoryJPA;
         this.productService = productService;
         this.recipeService = recipeService;
         this.productDishRepositoryJPA = productDishRepositoryJPA;
+        this.typeLunchRepository = typeLunchRepository;
+        this.msRepositoryJPA = msRepositoryJPA;
     }
 
     /**
@@ -48,29 +52,37 @@ public class DishService implements DishServiceInterface {
     public Dish addDish(Dish dish) {
         double weight = 0;
 
-        for (ProductDish product : dish.getProductDishes()) {
-            product.setProduct(productService.addProduct(product.getProduct()));
+        for (ProductDish productDish : dish.getProductDishes()) {
+            productDish.setProduct(productService.addProduct(productDish.getProduct()));
+            productDish.setMs(msRepositoryJPA.getFirstByShortName(productDish.getMs().getShortName()));
 
-            weight += product.getWeight();
+            weight += productDish.getWeight();
         }
 
+        // region Validation on recipe and type lunch
+
+        if (dish.getRecipe().getDescription().trim().length() != 0){
+            dish.setRecipe(recipeService.addRecipe(dish.getRecipe()));
+        } else {
+            dish.setRecipe(null);
+        }
+
+        if (dish.getTypeLunch().getName() == null) {
+            dish.setTypeLunch(typeLunchRepository.getTypeLunchByName(" "));
+        }
+
+        // endregion
+
         dish.setWeight(weight);
-        dish.setRecipe(recipeService.addRecipe(dish.getRecipe()));
         dishRepositoryJPA.save(dish);
 
         Dish currentDish = dishRepositoryJPA.findFirstByName(dish.getName());
 
         for (ProductDish product : dish.getProductDishes()) {
-            product.setProduct(productService.addProduct(product.getProduct()));
+            product.setDish(currentDish);
+            product.setProductDishId(new ProductDishKey(product.getProduct().getProductId(), currentDish.getDishId()));
 
-            ProductDish productDish = new ProductDish();
-            productDish.setDish(currentDish);
-            productDish.setProduct(product.getProduct());
-            productDish.setMs(product.getMs());
-
-            productDish.setProductDishId(new ProductDishKey(product.getProduct().getProductId(), currentDish.getDishId()));
-
-            productDishRepositoryJPA.save(productDish);
+            productDishRepositoryJPA.save(product);
         }
 
         return currentDish;

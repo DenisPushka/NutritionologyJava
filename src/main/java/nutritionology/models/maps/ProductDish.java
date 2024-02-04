@@ -1,5 +1,6 @@
 package nutritionology.models.maps;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
 import nutritionology.models.Dish;
 import nutritionology.models.dictionaries.MS;
@@ -30,6 +31,7 @@ public class ProductDish {
     @ManyToOne
     @MapsId("dishId")
     @JoinColumn(name = "dish_id")
+    @JsonIgnore
     private Dish dish;
 
     /**

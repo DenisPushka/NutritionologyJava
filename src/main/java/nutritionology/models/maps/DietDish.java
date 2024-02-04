@@ -2,6 +2,9 @@ package nutritionology.models.maps;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import nutritionology.models.*;
 import nutritionology.models.dictionaries.DayOfWeek;
 import nutritionology.models.dictionaries.MealTime;
@@ -12,8 +15,11 @@ import java.util.UUID;
 /**
  * Рацион - блюдо.
  */
+@Builder
 @Entity
 @Table(name = "diet_dish")
+@AllArgsConstructor
+@NoArgsConstructor
 public class DietDish {
 
     @Id
