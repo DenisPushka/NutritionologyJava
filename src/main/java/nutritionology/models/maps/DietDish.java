@@ -1,5 +1,6 @@
 package nutritionology.models.maps;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class DietDish {
      */
     @ManyToOne
     @JoinColumn(name = "diet_id")
+    @JsonIgnore
     private Diet diet;
 
     /**
@@ -46,7 +48,7 @@ public class DietDish {
      * День недели.
      */
     @ManyToOne
-    @JoinColumn(name = "day_of_week_id", nullable = false)
+    @JoinColumn(name = "day_of_week_id")
     private DayOfWeek dayOfWeek;
 
     /**

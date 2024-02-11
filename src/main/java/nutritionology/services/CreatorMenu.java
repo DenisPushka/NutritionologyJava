@@ -12,14 +12,17 @@ import nutritionology.models.maps.ProductMRItem;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
- * Создавальщик меню.
+ * Создатель меню.
  *
  * @Date 07.01.2024
  */
 @Service
 public class CreatorMenu {
+
+    private final Logger log = Logger.getLogger(CreatorMenu.class.getName());
 
     /**
      * Служит для передачи условия в параметр.
@@ -87,6 +90,8 @@ public class CreatorMenu {
      * @param parameter Параметр пользователя.
      */
     public void CreateMenuToOneDay(Parameter parameter) {
+        log.info("Create menu to one day");
+
         //region 1. Получение начального набора данных по полу и возрасту.
 
         List<Object[]> mrsFromAgeAndGender = mrRepositoryJPA.GetDataFromPerson((int) parameter.getAge(), "Ж");
@@ -156,6 +161,7 @@ public class CreatorMenu {
         List<Dish> launches2 = null;
         List<Dish> dinners2 = null;
 
+        // region Заполнение mrs для каждого приема пищи в зависимости от их количества.
         Tuple2<String, Double>[] mrsArrayMain = mrs.toArray(new Tuple2[0]);
         Tuple2<String, Double>[] mrsArrayForBreakfast = cloneArray(mrsArrayMain);
         Tuple2<String, Double>[] mrsArrayForDinner = cloneArray(mrsArrayMain);
@@ -167,7 +173,6 @@ public class CreatorMenu {
         listArraysTuple.add(mrsArrayForBreakfast);
         listArraysTuple.add(mrsArrayForDinner);
 
-        // Заолпнение mrs для каждого приема пищи в зависимости от их количества.
         if (parameter.getCountMealTimeInDay() > 2) {
             mrsArrayForLaunch = cloneArray(mrsArrayMain);
             listArraysTuple.add(mrsArrayForLaunch);
@@ -194,7 +199,9 @@ public class CreatorMenu {
             updateMRsArrayForMealTime(listArraysTuple.get(i), pfc, i);
         }
 
-        // region Полчение блюд по каждому приему пищи.
+        // endregion
+
+        // region Получение блюд по каждому приему пищи.
         Dish resultBreakfast = searchBestDishForMealTime(breakfasts, mrsArrayForBreakfast, checkLogicBetweenMRAndDish);
         Dish resultDinner = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
         Dish resultLaunch;
@@ -206,15 +213,15 @@ public class CreatorMenu {
         dishes[dishes.length - 1] = resultDinner;
 
         if (parameter.getCountMealTimeInDay() > 2) {
-            resultLaunch = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            resultLaunch = searchBestDishForMealTime(launches, mrsArrayForDinner, checkLogicBetweenMRAndDish);
             dishes[1] = resultLaunch;
         }
         if (parameter.getCountMealTimeInDay() > 3) {
-            resultLaunch2 = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            resultLaunch2 = searchBestDishForMealTime(launches2, mrsArrayForDinner, checkLogicBetweenMRAndDish);
             dishes[2] = resultLaunch2;
         }
         if (parameter.getCountMealTimeInDay() > 4) {
-            resultDinner2 = searchBestDishForMealTime(dinners, mrsArrayForDinner, checkLogicBetweenMRAndDish);
+            resultDinner2 = searchBestDishForMealTime(dinners2, mrsArrayForDinner, checkLogicBetweenMRAndDish);
             dishes[3] = resultDinner2;
         }
 
@@ -242,12 +249,15 @@ public class CreatorMenu {
 
         // todo не проверял.
         // Задачи:
-        // 1. Понадобавлять блюд (по каждому приему пищи, как минимум 5 штук).
-        // 2. Протестировать выборку.
-        // 3. Нарисовать UI для отображения выборки.
-        // 4. Прокинуть запрос с рационом.
-        // 5. Нарисовать конструктор для создания блюд.
-        // 6. Прокинуть запросы на сохранения созданных пользователем блюд.
+        // 1. Добавить блюда (по каждому приему пищи, как минимум 5 штук).✅
+        // 2. Протестировать выборку.✅
+        // 3. Нарисовать UI для отображения выборки.✅
+        // 4. Прокинуть запрос с рационом.✅
+        // 5. Нарисовать конструктор для создания блюд.✅
+        // 6. Прокинуть запросы на сохранения созданных пользователем блюд.✅
+        // 7. Сделать UI для меню на фронте.✅
+        // 8. Добавить фото к блюдам.
+        // 9. Отладить правильность выборки.
 
         Diet diet = new Diet();
         diet = dietRepositoryJPA.save(diet);
@@ -265,12 +275,11 @@ public class CreatorMenu {
                 );
             }
         }
-
     }
 
 
     /**
-     * Поиск лучше блюда для приема пищи.
+     * Поиск лучшего блюда для приема пищи.
      *
      * @param dishList Список блюд.
      * @param method   Условие проверки между МР пользователем и МР блюда.

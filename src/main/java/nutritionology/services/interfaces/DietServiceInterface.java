@@ -5,28 +5,13 @@ import nutritionology.models.dictionaries.DayOfWeek;
 import nutritionology.models.dictionaries.MealTime;
 import nutritionology.models.user.User;
 
+import java.util.UUID;
+
 /**
  * Интерфейс для запросов к таблице "Меню".
  * Включает запросы для таблиц: Прием пищи (MealTime), День недели (DayOfWeek).
  */
 public interface DietServiceInterface {
-
-    /**
-     * Добавление рациона.
-     *
-     * @param diet Добавляемый рацион.
-     * @return Массив рационов.
-     */
-    Diet[] addDiet(Diet diet);
-
-    /**
-     * Добавление рациона пользователю.
-     *
-     * @param user Кому добавляется рацион.
-     * @param diet Добавляемый рацион.
-     * @return Добавленный рацион.
-     */
-    Diet addDietToUser(User user, Diet diet);
 
     /**
      * Получение всех "Приемов пищи".
@@ -41,4 +26,11 @@ public interface DietServiceInterface {
      * @return Массив дней недели.
      */
     DayOfWeek[] getAllDaysOdfWeek();
+
+    /**
+     * Получение рациона по id.
+     *
+     * @param uuid Id рациона.
+     */
+    Diet getDietById(String uuid);
 }

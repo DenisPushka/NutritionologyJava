@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import nutritionology.models.maps.DietDish;
@@ -39,6 +40,7 @@ public class DayOfWeek {
      * Рацион - блюдо.
      */
     @OneToMany(mappedBy = "dayOfWeek", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<DietDish> dietDishes;
 
     // region gets and sets

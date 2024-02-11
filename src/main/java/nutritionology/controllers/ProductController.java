@@ -9,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping("/product")
 public class ProductController {
 
+    private final Logger log = Logger.getLogger(ProductController.class.getName());
     private final ProductServiceInterface productServiceInterface;
 
 
@@ -28,6 +31,7 @@ public class ProductController {
      */
     @PostMapping("/add")
     public void addProduct(@RequestBody Product product) {
+        log.info("Add product.");
         productServiceInterface.addProduct(product);
     }
 
@@ -48,9 +52,12 @@ public class ProductController {
      */
     @GetMapping("/products")
     public ResponseEntity<Product[]> getProducts() {
+        log.info("Get all products");
+
         MultiValueMap<String, String> headers = new HttpHeaders();
         headers.add("Access-Control-Allow-Origin", "*");
         headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+
         return new ResponseEntity<>(productServiceInterface.getAllProducts(), headers, HttpStatus.OK);
     }
 

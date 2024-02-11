@@ -41,6 +41,7 @@ public class MealTime {
      * Рацион - блюдо.
      */
     @OneToMany(mappedBy = "mealTime", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<DietDish> dietDishes;
 
     // region gets nad sets
