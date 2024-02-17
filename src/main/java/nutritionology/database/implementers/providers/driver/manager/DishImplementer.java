@@ -22,7 +22,6 @@ public class DishImplementer extends ParentSQL {
      * @return Искомое блюдо.
      */
     public Dish getDishForName(String name) {
-        // TODO VALIDATION.
 
         Dish dish = new Dish();
 
@@ -32,7 +31,6 @@ public class DishImplementer extends ParentSQL {
 
             stmt.setString(1, name);
 //            ResultSet executeQuery = stmt.executeQuery(
-//                    // TODO ВЫНЕСТИ В ФАЙЛ ЗАПРОСОВ.
 //                    "SELECT DishId, Number, Name, Weight, IsDrink, TypeLunchId " +
 //                            "FROM [aspnet-Nutritionology].[dbo].[Dish] " +
 //                            "WHERE Name like '%" + name + "%'");
@@ -50,8 +48,6 @@ public class DishImplementer extends ParentSQL {
             stmt.close();
             connection.close();
         } catch (Exception ex) {
-
-            // TODO ВЫНЕСТИ.
             for (StackTraceElement stack : ex.getStackTrace()) {
                 System.err.println(stack.toString());
             }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 import nutritionology.models.dictionaries.MealTime;
 import nutritionology.models.dictionaries.Photo;
 import nutritionology.models.dictionaries.TypeLunch;
@@ -11,6 +12,7 @@ import nutritionology.models.maps.DietDish;
 import nutritionology.models.maps.ProductDish;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "dish")
+@Data
 public class Dish {
 
     @Id
@@ -64,7 +67,7 @@ public class Dish {
      * Фото блюда.
      */
     @OneToMany(mappedBy = "dish", fetch = FetchType.EAGER)
-    private Set<Photo> Photos;
+    private Set<Photo> photos;
 
     /**
      * Рецепт.
@@ -105,171 +108,11 @@ public class Dish {
     @Nullable
     private TypeLunch typeLunch;
 
-    //region gets and sets
-
-    public UUID getDishId() {
-        return dishId;
-    }
-
-    public void setDishId(UUID dishId) {
-        this.dishId = dishId;
-    }
-
     /**
-     * Номер продукта.
+     * Сумма по нутриентам.
      */
-    public int getNumberProduct() {
-        return numberProduct;
-    }
-
-    /**
-     * Номер продукта.
-     */
-    public void setNumberProduct(int numberProduct) {
-        this.numberProduct = numberProduct;
-    }
-
-    /**
-     * Название.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Название.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Вес.
-     */
-    public double getWeight() {
-        return weight;
-    }
-
-    /**
-     * Вес.
-     */
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-//
-//    /**
-//     * Процент дневной нормы.
-//     */
-//    public double getDayNorm() {
-//        return dayNorm;
-//    }
-//
-//    /**
-//     * Процент дневной нормы.
-//     */
-//    public void setDayNorm(double dayNorm) {
-//        this.dayNorm = dayNorm;
-//    }
-
-    /**
-     * Это напиток.
-     */
-    public boolean isDrink() {
-        return isDrink;
-    }
-
-    /**
-     * Это напиток.
-     */
-    public void setDrink(boolean drink) {
-        isDrink = drink;
-    }
-
-    /**
-     * Рецепт.
-     */
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    /**
-     * Рецепт.
-     */
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    /**
-     * Прием пищи.
-     */
-    public Set<MealTime> getMealTimes() {
-        return mealTimes;
-    }
-
-    /**
-     * Прием пищи.
-     */
-    public void setMealTimes(Set<MealTime> mealTimes) {
-        this.mealTimes = mealTimes;
-    }
-
-    /**
-     * Продукты.
-     */
-    public Set<ProductDish> getProductDishes() {
-        return productDishes;
-    }
-
-    /**
-     * Продукты.
-     */
-    public void setProductDishes(Set<ProductDish> productDishes) {
-        this.productDishes = productDishes;
-    }
-
-    /**
-     * Фото блюда.
-     */
-    public Set<Photo> getPhotos() {
-        return Photos;
-    }
-
-    /**
-     * Фото блюда.
-     */
-    public void setPhotos(Set<Photo> photos) {
-        Photos = photos;
-    }
-
-    /**
-     * Рацион - блюдо.
-     */
-    public Set<DietDish> getDietDishes() {
-        return dietDishes;
-    }
-
-    /**
-     * Рацион - блюдо.
-     */
-    public void setDietDishes(Set<DietDish> dietDishes) {
-        this.dietDishes = dietDishes;
-    }
-
-    /**
-     * Тип обеда.
-     */
-    public TypeLunch getTypeLunch() {
-        return typeLunch;
-    }
-
-    /**
-     * Тип обеда.
-     */
-    public void setTypeLunch(TypeLunch typeLunch) {
-        this.typeLunch = typeLunch;
-    }
-
-    //endregion
+    @Transient
+    private HashMap<String, Double> nutrients;
 
     /**
      * Клонирование объекта.

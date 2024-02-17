@@ -1,6 +1,10 @@
 package nutritionology.models.dictionaries;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nutritionology.models.Dish;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,8 +14,12 @@ import java.util.UUID;
 /**
  * Фото.
  */
+@Builder
 @Entity
 @Table(name = "photo")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Photo {
 
     @Id
@@ -29,48 +37,11 @@ public class Photo {
     /**
      * Блюдо.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dish_id", nullable = false)
     @JsonIgnore
     private Dish dish;
 
-    // region get && set
-
-    public UUID getPhoto_id() {
-        return photo_id;
-    }
-
-    public void setPhoto_id(UUID photo_id) {
-        this.photo_id = photo_id;
-    }
-
-    /**
-     * Значение.
-     */
-    public String getPhotoName() {
-        return photoName;
-    }
-
-    /**
-     * Значение.
-     */
-    public void setPhotoName(String photoName) {
-        this.photoName = photoName;
-    }
-
-    /**
-     * Блюдо.
-     */
-    public Dish getDish() {
-        return dish;
-    }
-
-    /**
-     * Блюдо.
-     */
-    public void setDish(Dish dish) {
-        this.dish = dish;
-    }
-
-    // endregion
+    @Transient
+    private String data;
 }

@@ -75,14 +75,6 @@ public class DishSQlScript {
             GetDish +
                     "WHERE R2.IsPrivate = 0 AND D.Name LIKE ";
 
-    // TODO продумать как лучше построить запрос с приемом пищи.
-    // "   MT.MealTimeId," +
-    // "   MT.Name " +
-    // "   LEFT JOIN DishMealTimeMap DMTM " +
-    // "      ON D.DishId = DMTM.DishId" +
-    // "   LEFT JOIN MealTime MT " +
-    // "       ON DMTM.MealTimeId = MT.MealTimeId " +
-
     /**
      * Получение Guid блюда по его названию.
      */

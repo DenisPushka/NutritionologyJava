@@ -8,8 +8,12 @@ import nutritionology.database.implementers.providers.jpa.TypeLunchRepository;
 import nutritionology.models.Dish;
 import nutritionology.models.maps.ProductDish;
 import nutritionology.models.maps.ProductDishKey;
+import nutritionology.models.maps.ProductMRItem;
 import nutritionology.services.interfaces.DishServiceInterface;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Сервис для блюд.
@@ -95,7 +99,7 @@ public class DishService implements DishServiceInterface {
      */
     @Override
     public Dish[] getDishes() {
-        return new Dish[0];
+        return dishRepositoryJPA.findAll().toArray(new Dish[0]);
     }
 
     /**
@@ -105,6 +109,6 @@ public class DishService implements DishServiceInterface {
      * @return Блюдо.
      */
     public Dish getDishForName(String name) {
-        return dishImplementer.getDishForName(name);
+        return dishRepositoryJPA.findFirstByName(name);
     }
 }

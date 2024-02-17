@@ -247,8 +247,7 @@ public class CreatorMenu {
             return;
         }
 
-        // todo не проверял.
-        // Задачи:
+        // todo Задачи:
         // 1. Добавить блюда (по каждому приему пищи, как минимум 5 штук).✅
         // 2. Протестировать выборку.✅
         // 3. Нарисовать UI для отображения выборки.✅
@@ -256,7 +255,7 @@ public class CreatorMenu {
         // 5. Нарисовать конструктор для создания блюд.✅
         // 6. Прокинуть запросы на сохранения созданных пользователем блюд.✅
         // 7. Сделать UI для меню на фронте.✅
-        // 8. Добавить фото к блюдам.
+        // 8. Добавить фото к блюдам.✅
         // 9. Отладить правильность выборки.
 
         Diet diet = new Diet();
@@ -295,20 +294,7 @@ public class CreatorMenu {
             HashMap<String, Double> bufferForDish = new HashMap<>();
 
             // Продукты.
-            for (ProductDish productDish : productDishes) {
-                Set<ProductMRItem> productMRItems = productDish.getProduct().getProductMRItems();
-
-                // МР продукта.
-                for (ProductMRItem productMRItem : productMRItems) {
-                    // Если не встречался, создаем в буфере данную позицию.
-                    if (!bufferForDish.containsKey(productMRItem.getMrItem().getName())) {
-                        bufferForDish.put(productMRItem.getMrItem().getName(), 0.0);
-                    }
-
-                    bufferForDish.put(productMRItem.getMrItem().getName(),
-                            bufferForDish.get(productMRItem.getMrItem().getName()) + productMRItem.getFoodValue());
-                }
-            }
+            calculateNutrientsInDish(productDishes, bufferForDish);
 
             dishResult = dish;
             boolean isChoice = true;
@@ -326,7 +312,7 @@ public class CreatorMenu {
             if (isChoice) return dishResult;
         }
 
-        // При ненахождении необходимого завтркака вообще.
+        // При ненахождении необходимого блюда вообще.
         if (method.equals(checkLogicBetweenMRAndDishOnlyPPFC)) {
             // todo зарандомить выбор.
             return dishList.get(1);
@@ -334,6 +320,29 @@ public class CreatorMenu {
 
         // Вызов этой же ф-ии ток для КБЖУ.
         return searchBestDishForMealTime(dishList, mrs, checkLogicBetweenMRAndDishOnlyPPFC);
+    }
+
+    /**
+     * Высчитывание всех нутриентов в блюде.
+     *
+     * @param bufferForDish Буфер, в который будет класться результат.
+     * @param productDishes Продукты блюда.
+     */
+    public static void calculateNutrientsInDish(Set<ProductDish> productDishes, HashMap<String, Double> bufferForDish) {
+        for (ProductDish productDish : productDishes) {
+            Set<ProductMRItem> productMRItems = productDish.getProduct().getProductMRItems();
+
+            // МР продукта.
+            for (ProductMRItem productMRItem : productMRItems) {
+                // Если не встречался, создаем в буфере данную позицию.
+                if (!bufferForDish.containsKey(productMRItem.getMrItem().getName())) {
+                    bufferForDish.put(productMRItem.getMrItem().getName(), 0.0);
+                }
+
+                bufferForDish.put(productMRItem.getMrItem().getName(),
+                        bufferForDish.get(productMRItem.getMrItem().getName()) + productMRItem.getFoodValue());
+            }
+        }
     }
 
     /**

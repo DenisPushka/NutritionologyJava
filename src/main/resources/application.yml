@@ -14,3 +14,6 @@ spring:
   #default port number
 server:
   port: 8081
+
+upload:
+  path: C:\Users\User\IdeaProjects\Nutritionology\src\uploads

@@ -23,7 +23,7 @@ public class Diet {
     /**
      * Рацион - блюдо.
      */
-    @OneToMany(mappedBy = "diet")
+    @OneToMany(mappedBy = "diet", fetch = FetchType.LAZY)
     private Set<DietDish> dietDishes;
 
 
