@@ -1,7 +1,10 @@
 package nutritionology.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import nutritionology.models.maps.DietDish;
+import nutritionology.models.user.User;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Set;
@@ -12,6 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "diet")
+@Data
 public class Diet {
 
     @Id
@@ -26,30 +30,10 @@ public class Diet {
     @OneToMany(mappedBy = "diet", fetch = FetchType.LAZY)
     private Set<DietDish> dietDishes;
 
-
-    // region get and set
-
-    public UUID getDietId() {
-        return dietId;
-    }
-
-    public void setDietId(UUID dietId) {
-        this.dietId = dietId;
-    }
-
     /**
-     * Рацион - блюдо.
+     * Рацион - пользователь.
      */
-    public Set<DietDish> getDietDishes() {
-        return dietDishes;
-    }
-
-    /**
-     * Рацион - блюдо.
-     */
-    public void setDietDishes(Set<DietDish> dietDishes) {
-        this.dietDishes = dietDishes;
-    }
-
-    // endregion
+    @ManyToMany(mappedBy = "diets")
+    @JsonIgnore
+    private Set<User> users;
 }

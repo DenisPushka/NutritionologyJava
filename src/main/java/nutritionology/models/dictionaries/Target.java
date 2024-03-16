@@ -1,5 +1,6 @@
 package nutritionology.models.dictionaries;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -42,5 +43,6 @@ public class Target {
      * Параметр.
      */
     @OneToMany(mappedBy = "target")
+    @JsonIgnore
     private Set<Parameter> parameters;
 }

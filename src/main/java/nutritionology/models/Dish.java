@@ -30,7 +30,6 @@ public class Dish {
     @Column(name = "dish_id", length = 36, nullable = false, updatable = false)
     private UUID dishId;
 
-    // TODO NEED?
     /**
      * Номер продукта.
      */
@@ -49,13 +48,6 @@ public class Dish {
      */
     @Column(name = "weight")
     private double weight;
-//
-//    /**
-//     * Процент дневной нормы.
-//     */
-//    // TODO THINK!
-//    @Transient
-//    private double dayNorm;
 
     /**
      * Продукты.
@@ -122,7 +114,6 @@ public class Dish {
     @Override
     public Dish clone() throws CloneNotSupportedException {
         Dish newDish = (Dish) super.clone();
-        // TODO доделать.
 
 //            dishId = this.dishId
 //                    Name = (string)Name.Clone(),

@@ -134,11 +134,4 @@ public class Gender {
     }
 
     // endregion
-
-    /***/
-    @Override
-    protected Gender clone() throws CloneNotSupportedException {
-        // todo
-        return (Gender) super.clone();
-    }
 }

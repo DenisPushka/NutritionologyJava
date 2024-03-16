@@ -1,9 +1,11 @@
 package nutritionology.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import nutritionology.models.dictionaries.*;
 import nutritionology.models.user.User;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,6 +18,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "parameter")
+@Data
 public class Parameter {
 
     @Id
@@ -82,6 +85,9 @@ public class Parameter {
     @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
 
+    @Transient
+    private String simpleActivity;
+
     /**
      * Цель.
      */
@@ -93,158 +99,7 @@ public class Parameter {
      * Пользователи.
      */
     @ManyToMany(mappedBy = "parameters")
+    @JsonIgnore
     private Set<User> users;
 
-    // region get && set
-
-    public UUID getParameterId() {
-        return parameterId;
-    }
-
-    public void setParameterId(UUID parameterId) {
-        this.parameterId = parameterId;
-    }
-
-    /**
-     * Пол.
-     */
-    public Gender getGender() {
-        return gender;
-    }
-
-    /**
-     * Пол.
-     */
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    /**
-     * Возраст.
-     */
-    public float getAge() {
-        return age;
-    }
-
-    /**
-     * Возраст.
-     */
-    public void setAge(float age) {
-        this.age = age;
-    }
-
-    /**
-     * Вес (кг).
-     */
-    public double getWeight() {
-        return weight;
-    }
-
-    /**
-     * Вес (кг).
-     */
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    /**
-     * Рост (см).
-     */
-    public double getHeight() {
-        return height;
-    }
-
-    /**
-     * Рост (см).
-     */
-    public void setHeight(double height) {
-        // todo validation.
-        this.height = height;
-    }
-
-    /**
-     * Любимые продукты.
-     */
-    public Set<Product> getLikeProducts() {
-        return likeProducts;
-    }
-
-    /**
-     * Любимые продукты.
-     */
-    public void setLikeProducts(Set<Product> likeProducts) {
-        this.likeProducts = likeProducts;
-    }
-
-    /**
-     * Проблемные продукты.
-     */
-    public Set<Product> getProblemProducts() {
-        return problemProducts;
-    }
-
-    /**
-     * Проблемные продукты.
-     */
-    public void setProblemProducts(Set<Product> problemProducts) {
-        this.problemProducts = problemProducts;
-    }
-
-    /**
-     * Количество приемов пищи в день.
-     */
-    public int getCountMealTimeInDay() {
-        return countMealTimeInDay;
-    }
-
-    /**
-     * Количество приемов пищи в день.
-     */
-    public void setCountMealTimeInDay(int countMealTimeInDay) {
-        this.countMealTimeInDay = countMealTimeInDay;
-    }
-
-    /**
-     * Активность.
-     */
-    public Activity getActivity() {
-        return activity;
-    }
-
-    /**
-     * Активность.
-     */
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-    /**
-     * Цель.
-     */
-    public Target getTarget() {
-        return target;
-    }
-
-    /**
-     * Цель.
-     */
-    public void setTarget(Target target) {
-        this.target = target;
-    }
-
-    /**
-     * Пользователи.
-     */
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    /**
-     * Пользователи.
-     */
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    // endregion
 }

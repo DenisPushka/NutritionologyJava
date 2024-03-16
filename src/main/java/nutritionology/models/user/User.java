@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import nutritionology.models.Diet;
 import nutritionology.models.Parameter;
+import nutritionology.models.dictionaries.MealTime;
 import nutritionology.models.dictionaries.Subscription;
 import nutritionology.models.dictionaries.UserRole;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +20,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "user_parent")
+@Data
 public class User {
 
     @Id
@@ -35,7 +39,7 @@ public class User {
      * Подписка.
      */
     @ManyToOne
-    @JoinColumn(name = "subscription_id", nullable = false)
+    @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
     /**
@@ -84,127 +88,13 @@ public class User {
     @Size(min = 5, message = "Size password minimum 5 sign")
     private String passwordHash;
 
-    // region get and set
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
     /**
-     * Фото.
+     * Рационы.
      */
-    public String getPhoto() {
-        return photo;
-    }
-
-    /**
-     * Фото.
-     */
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    /**
-     * Подписка.
-     */
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    /**
-     * Подписка.
-     */
-    public void setSubscription(Subscription subscription) {
-        this.subscription = subscription;
-    }
-
-    /**
-     * Параметры для пользователя.
-     */
-    public Set<Parameter> getParameters() {
-        return parameters;
-    }
-
-    /**
-     * Параметры для пользователя.
-     */
-    public void setParameters(Set<Parameter> parameters) {
-        this.parameters = parameters;
-    }
-
-    /**
-     * Физ лицо.
-     */
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    /**
-     * Физ лицо.
-     */
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    /**
-     * Компания.
-     */
-    public Company getCompany() {
-        return company;
-    }
-
-    /**
-     * Компания.
-     */
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    /**
-     * Роль пользователя.
-     */
-    public UserRole getUserRole() {
-        return userRole;
-    }
-
-    /**
-     * Роль пользователя.
-     */
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    /**
-     * Почта, логин.
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Почта, логин.
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Хешированнный парооль.
-     */
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    /**
-     * Хешированнный парооль.
-     */
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    // endregion
+    @ManyToMany
+    @JoinTable(
+            name = "user_diet_map",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "diet_id", referencedColumnName = "diet_id"))
+    private Set<Diet> diets;
 }

@@ -39,7 +39,6 @@ public class CreatorMenu {
         boolean checkLogicBetweenMRAndDish(HashMap<String, Double> bufferForDish, Tuple2<String, Double> tuple);
     }
 
-    //    private boolean checkLogicBetweenMRAndDish(HashMap<String, Double> bufferForDish, Tuple2<String, Double> tuple) {
     /**
      * Условие проверки между МР пользователя и МР блюда.
      */
@@ -89,7 +88,7 @@ public class CreatorMenu {
      *
      * @param parameter Параметр пользователя.
      */
-    public void CreateMenuToOneDay(Parameter parameter) {
+    public Diet createMenuToOneDay(Parameter parameter) {
         log.info("Create menu to one day");
 
         //region 1. Получение начального набора данных по полу и возрасту.
@@ -229,12 +228,10 @@ public class CreatorMenu {
 
         // Обращение в репу для сохранения всех изменений.
         // todo лучше все это вынести в отдельный мкс.
-
-        saveAllDifference(dishes, mealTimes.toArray(new MealTime[0]));
-
         var stop = 0;
-    }
 
+        return saveAllDifference(dishes, mealTimes.toArray(new MealTime[0]));
+    }
 
     /**
      * Сохранение всех изменений в БД.
@@ -242,9 +239,9 @@ public class CreatorMenu {
      * @param dishes    Блюда.
      * @param mealTimes Приемы пищи.
      */
-    public void saveAllDifference(Dish[] dishes, MealTime[] mealTimes) {
+    public Diet saveAllDifference(Dish[] dishes, MealTime[] mealTimes) {
         if (dishes.length != mealTimes.length) {
-            return;
+            return null;
         }
 
         // todo Задачи:
@@ -257,6 +254,13 @@ public class CreatorMenu {
         // 7. Сделать UI для меню на фронте.✅
         // 8. Добавить фото к блюдам.✅
         // 9. Отладить правильность выборки.
+        // 10. Поправить фронт, отображение нутриентов.
+        // 11. Доработать процесс формирования параметров на UI.
+        // 12. Пройти процесс создания пользователя с параметром на беке.
+        // 13. Доработать конструктор: добавление фоток к блюду.
+        // 14. Разобраться с ролевкой.
+        // 15. Параметр -> цель, возврат к п 9.
+        // 16. Сделать авторизацию.
 
         Diet diet = new Diet();
         diet = dietRepositoryJPA.save(diet);
@@ -274,8 +278,9 @@ public class CreatorMenu {
                 );
             }
         }
-    }
 
+        return diet;
+    }
 
     /**
      * Поиск лучшего блюда для приема пищи.

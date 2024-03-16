@@ -2,16 +2,14 @@ spring:
   profiles:
     active: development
   datasource:
-    url: jdbc:sqlserver://localhost;database=Nutritionology;user=Denis_Nutrotionology;password=12345;encrypt=true;trustServerCertificate=true
-    username: Denis_Nutrotionology
-    password: 12345
+    url: jdbc:sqlserver://localhost;database=Nutritionology;user=Denis_Nutrotionology;password=123456;encrypt=true;trustServerCertificate=true
   properties:
     hibernate:
       format_sql: true
       ddl-auto: update
   jpa:
-    generate-ddl:true
-  #default port number
+    generate-ddl: true
+
 server:
   port: 8081
 

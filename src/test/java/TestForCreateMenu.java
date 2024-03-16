@@ -51,7 +51,7 @@ public class TestForCreateMenu {
         parameter.setAge(21);
         parameter.setCountMealTimeInDay(3);
 
-        creatorMenu.CreateMenuToOneDay(parameter);
+        creatorMenu.createMenuToOneDay(parameter);
     }
 
     @Test

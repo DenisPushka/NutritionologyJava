@@ -29,7 +29,7 @@ public class Photo {
     private UUID photo_id;
 
     /**
-     * Значение.
+     * Название.
      */
     @Column(name = "photo_name")
     private String photoName;
@@ -42,6 +42,9 @@ public class Photo {
     @JsonIgnore
     private Dish dish;
 
+    /**
+     * Данные.
+     * */
     @Transient
     private String data;
 }
